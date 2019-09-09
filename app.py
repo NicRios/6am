@@ -32,7 +32,7 @@ def upload_route_summary():
                     justNum = '+' + justNum
                     row['Phone'] = justNum;
             print(index,row)
-    return data
+    return "Success"
 
 @app.route("/format/json", methods=['GET', 'POST'])
 def format_json():
