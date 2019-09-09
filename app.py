@@ -13,7 +13,7 @@ def upload_route_summary():
     if request.method == 'POST':
         f = request.files['fileupload']
         fstring = f.read()
-        print fstring
+        print (fstring)
     return "success"
 
 @app.route("/format/json", methods=['GET', 'POST'])
@@ -54,13 +54,17 @@ def format_json():
             output = r.content
     return output
 
-@app.route("/ddip", methods=['GET', 'POST'])
-def dip():
-    if request.method == 'POST':
-        jsonFile2 = request.json
-        crm = jsonFile2['crm']
-        if crm == 'Salesforce':
-            ddip_url = 
+# @app.route("/ddip", methods=['GET', 'POST'])
+# def dip():
+#     if request.method == 'POST':
+#         jsonFile2 = request.json
+#         crm = jsonFile2['crm']
+#         code jsonFile2['code']
+#         if crm == 'Salesforce':
+#             ddip_url = ''
+#             headers = {}
+
+            
 
 
 
