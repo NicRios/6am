@@ -17,23 +17,22 @@ def upload_route_summary():
         data = pd.read_csv(f)
         for index, row in data.iterrows():
             num = row['Phone']
-        if not isinstance(num,str):
-            num = str(num)
-        justNum = re.sub('[^0-9]','',num)
-        if len(justNum) < 10 or len(justNum) > 11:
-            print('invalid US number')
-        if len(justNum) ==10:
-            justNum = '+1' + justNum
-            row['Phone'] = justNum;
-
-        if len(justNum) == 11:
-            if justNum[0] != '1':
+            if not isinstance(num,str):
+                num = str(num)
+                justNum = re.sub('[^0-9]','',num)
+            if len(justNum) < 10 or len(justNum) > 11:
                 print('invalid US number')
-            else:
-                justNum = '+' + justNum
+            if len(justNum) ==10:
+                justNum = '+1' + justNum
                 row['Phone'] = justNum;
-        print(index,row)
-    return "success"
+            if len(justNum) == 11:
+                if justNum[0] != '1':
+                    print('invalid US number')
+                else:
+                    justNum = '+' + justNum
+                    row['Phone'] = justNum;
+            print(index,row)
+    return data
 
 @app.route("/format/json", methods=['GET', 'POST'])
 def format_json():
