@@ -11,7 +11,6 @@ def index():
 @app.route("/upload.html", methods=['GET', 'POST'])
 def upload_route_summary():
     if request.method == 'POST':
-
         f = request.files['fileupload']
         fstring = f.read()
         print fstring
@@ -54,6 +53,16 @@ def format_json():
             r = requests.get(final_url)
             output = r.content
     return output
+
+@app.route("/ddip", methods=['GET', 'POST'])
+def dip():
+    if request.method == 'POST':
+        jsonFile2 = request.json
+        crm = jsonFile2['crm']
+        if crm == 'Salesforce':
+            ddip_url = 
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
