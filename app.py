@@ -1,5 +1,7 @@
 from flask import Flask, redirect, render_template, url_for, request
 import requests, json
+import pandas as pd
+import re
 
 app = Flask(__name__)
 
@@ -12,8 +14,26 @@ def index():
 def upload_route_summary():
     if request.method == 'POST':
         f = request.files['fileupload']
-        fstring = f.read()
-        print (fstring)
+        data = pd.read_csv(f)
+        for index, row in data.iterrows():
+            num = row['Phone']
+        if not isinstance(num,str):
+            num = str(num)
+        justNum = re.sub('[^0-9]','',num)
+        if len(justNum) < 10 or len(justNum) > 11:
+            print('invalid US number')
+            continue
+        if len(justNum) ==10:
+            justNum = '+1' + justNum
+            row['Phone'] = justNum;
+
+        if len(justNum) == 11:
+            if justNum[0] != '1':
+                print('invalid US number')
+            else:
+                justNum = '+' + justNum
+                row['Phone'] = justNum;
+        print(index,row)
     return "success"
 
 @app.route("/format/json", methods=['GET', 'POST'])
@@ -64,7 +84,7 @@ def format_json():
 #             ddip_url = ''
 #             headers = {}
 
-            
+
 
 
 
