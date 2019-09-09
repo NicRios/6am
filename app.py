@@ -22,7 +22,6 @@ def upload_route_summary():
         justNum = re.sub('[^0-9]','',num)
         if len(justNum) < 10 or len(justNum) > 11:
             print('invalid US number')
-            continue
         if len(justNum) ==10:
             justNum = '+1' + justNum
             row['Phone'] = justNum;
