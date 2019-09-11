@@ -101,7 +101,7 @@ def dip():
             ddip_url = ''
             headers = { 'code': code }
         r = requests.get(ddip_url, headers = headers)
-        out = r.content
+        out = r.get[field]
     return out
 
 
