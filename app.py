@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for, request
+from flask import Flask, redirect, render_template, url_for, request, send_file
 import requests, json
 import pandas as pd
 import re
@@ -24,15 +24,19 @@ def upload_route_summary():
                 print('invalid US number')
             if len(justNum) ==10:
                 justNum = '+1' + justNum
-                row['Phone'] = justNum;
+                #data.at[index, 'Phone'] = justNum;
             if len(justNum) == 11:
                 if justNum[0] != '1':
                     print('invalid US number')
                 else:
                     justNum = '+' + justNum
-                    row['Phone'] = justNum;
-            #print(index,row)
-    return render_template('download.html', data = data.to_string())
+                    #row['Phone'] = justNum;
+            data.at[index, 'Phone'] = justNum;
+        data.to_csv("updated.csv")
+    return send_file('updated.csv',
+                     mimetype='text/csv',
+                     attachment_filename='updated.csv',
+                     as_attachment=True)
 
 @app.route("/format/json", methods=['GET', 'POST'])
 def format_json():
