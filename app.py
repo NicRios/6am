@@ -24,14 +24,13 @@ def upload_route_summary():
                 print('invalid US number')
             if len(justNum) ==10:
                 justNum = '+1' + justNum
-                #data.at[index, 'Phone'] = justNum;
+                data['Phone'] = justNum;
             if len(justNum) == 11:
                 if justNum[0] != '1':
                     print('invalid US number')
                 else:
                     justNum = '+' + justNum
-                    #row['Phone'] = justNum;
-            data.at[index, 'Phone'] = justNum;
+                    data['Phone'] = justNum;
         data.to_csv("updated.csv")
     return send_file('updated.csv',
                      mimetype='text/csv',
