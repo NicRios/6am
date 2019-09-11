@@ -43,12 +43,8 @@ def upload_route_summary():
                              print("finalNum is: ", finalNum)
                              data.at[index, 'Phone'] = finalNum
                              print(row)
-            #num = ''
         data.to_csv("updated.csv")
-    return send_file('updated.csv',
-                     mimetype='text/csv',
-                     attachment_filename='updated.csv',
-                     as_attachment=True)
+    return send_file('updated.csv', mimetype='text/csv', attachment_filename='updated.csv', as_attachment=True)
 
 @app.route("/format/json", methods=['GET', 'POST'])
 def format_json():
@@ -88,18 +84,21 @@ def format_json():
             output = r.content
     return output
 
-# @app.route("/ddip", methods=['GET', 'POST'])
-# def dip():
-#     if request.method == 'POST':
-#         jsonFile2 = request.json
-#         crm = jsonFile2['crm']
-#         code jsonFile2['code']
-#         if crm == 'Salesforce':
-#             ddip_url = ''
-#             headers = {}
-
-
-
+@app.route("/ddip", methods=['GET', 'POST'])
+def dip():
+    if request.method == 'POST':
+        jsonFile2 = request.json
+        crm = jsonFile2['crm']
+        code = jsonFile2['code']
+        if crm == 'Salesforce':
+            ddip_url = 'http://talkforce.force.com/omnidatadip/services/apexrest/webdatadip/go'
+            headers = { 'code': code }
+        else:
+            ddip_url = ''
+            headers = { 'code': code }
+        r = requests.get(ddip_url, headers = headers)
+        out = r.content
+    return out
 
 
 if __name__ == "__main__":
