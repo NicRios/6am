@@ -103,7 +103,8 @@ def dip():
         r = requests.get(ddip_url, headers = headers)
         out = r.content
         mid = json.loads(out)
-    return mid
+        fin = mid.get(field)
+    return fin
 
 
 if __name__ == "__main__":
