@@ -89,7 +89,11 @@ def dip():
     if request.method == 'POST':
         jsonFile2 = request.json
         crm = jsonFile2['crm']
-        code = jsonFile2['code']
+        object = jsonFile2['object']
+        field = jsonFile2['field']
+        filterBy = jsonFile2['filterBy']
+        code = 'Select' + field + 'From' + object + 'Where' + filterBy
+        #code = jsonFile2['code']
         if crm == 'Salesforce':
             ddip_url = 'http://talkforce.force.com/omnidatadip/services/apexrest/webdatadip/go'
             headers = { 'code': code }
@@ -98,7 +102,8 @@ def dip():
             headers = { 'code': code }
         r = requests.get(ddip_url, headers = headers)
         out = r.content
-    return out
+        fin = out[field]
+    return fin
 
 
 if __name__ == "__main__":
