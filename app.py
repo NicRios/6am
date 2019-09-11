@@ -92,7 +92,7 @@ def dip():
         object = jsonFile2['object']
         field = jsonFile2['field']
         filterBy = jsonFile2['filterBy']
-        code = 'Select' + field + 'From' + object + 'Where' + filterBy
+        code = 'Select ' + field + ' From ' + object + ' Where ' + filterBy
         #code = jsonFile2['code']
         if crm == 'Salesforce':
             ddip_url = 'http://talkforce.force.com/omnidatadip/services/apexrest/webdatadip/go'
