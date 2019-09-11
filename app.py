@@ -34,6 +34,7 @@ def upload_route_summary():
                 else:
                     justNum = '+' + justNum
                     data['Phone'] = justNum;
+            num = ''
         data.to_csv("updated.csv")
     return send_file('updated.csv',
                      mimetype='text/csv',
