@@ -17,7 +17,7 @@ def upload_route_summary():
         data = pd.read_csv(f)
         for index, row in data.iterrows():
             num = row['Phone']
-            print(num)
+            print(row)
             if not isinstance(num,str):
                 num = str(num)
                 #num = num[1:]
