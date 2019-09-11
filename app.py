@@ -18,19 +18,20 @@ def upload_route_summary():
         #print (data)
         for index, row in data.iterrows():
             num = row['Phone']
-            #print(row)
+            print("num is: ", num)
             if not isinstance(num,str):
                 num = str(num)
                 print("string conversion")
                 #num = num[1:]
             justNum = re.sub('[^0-9]','',num)
-            print(justNum)
+            print("justNum is: ", justNum)
             if len(justNum) < 10 or len(justNum) > 11:
                 print('invalid US number')
-            if len(justNum) ==10:
+            else if len(justNum) ==10:
                 justNum = '+1' + justNum
                 data['Phone'] = justNum;
-            if len(justNum) == 11:
+                continue;
+            else if len(justNum) == 11:
                 if justNum[0] != '1':
                     print('invalid US number')
                 else:
