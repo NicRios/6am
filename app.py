@@ -32,6 +32,7 @@ def upload_route_summary():
                      finalNum = '+1' + str(justNum)
                      print("finalNum is: ", finalNum)
                      data.at[index, 'Phone'] = finalNum
+                     print(row)
                      continue;
                  else:
                       if len(justNum) == 11:
@@ -41,6 +42,7 @@ def upload_route_summary():
                              finalNum = '+' + str(justNum)
                              print("finalNum is: ", finalNum)
                              data.at[index, 'Phone'] = finalNum
+                             print(row)
             #num = ''
         data.to_csv("updated.csv")
     return send_file('updated.csv',
