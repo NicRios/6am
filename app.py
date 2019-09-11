@@ -20,6 +20,7 @@ def upload_route_summary():
             if not isinstance(num,str):
                 num = str(num)
             justNum = re.sub('[^0-9]','',num)
+            print(justNum)
             if len(justNum) < 10 or len(justNum) > 11:
                 print('invalid US number')
             if len(justNum) ==10:
