@@ -102,7 +102,7 @@ def dip():
             headers = { 'code': code }
         r = requests.get(ddip_url, headers = headers)
         out = r.content
-    return fin
+    return out
 
 
 if __name__ == "__main__":
