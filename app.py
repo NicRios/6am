@@ -30,7 +30,7 @@ def upload_route_summary():
             else:
                  if len(justNum) ==10:
                      justNum = '+1' + justNum
-                     row['Phone'] = justNum;
+                     data.at[index, 'Phone'] = justNum
                      continue;
                  else:
                       if len(justNum) == 11:
@@ -38,8 +38,8 @@ def upload_route_summary():
                              print('invalid US number')
                          else:
                              justNum = '+' + justNum
-                             row['Phone'] = justNum;
-            num = ''
+                             data.at[index, 'Phone'] = justNum
+            #num = ''
         data.to_csv("updated.csv")
     return send_file('updated.csv',
                      mimetype='text/csv',
