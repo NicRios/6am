@@ -27,16 +27,18 @@ def upload_route_summary():
             print("justNum is: ", justNum)
             if len(justNum) < 10 or len(justNum) > 11:
                 print('invalid US number')
-            else if len(justNum) ==10:
-                justNum = '+1' + justNum
-                data['Phone'] = justNum;
-                continue;
-            else if len(justNum) == 11:
-                if justNum[0] != '1':
-                    print('invalid US number')
-                else:
-                    justNum = '+' + justNum
-                    data['Phone'] = justNum;
+            else:
+                 if len(justNum) ==10:
+                     justNum = '+1' + justNum
+                     data['Phone'] = justNum;
+                     continue;
+                 else:
+                      if len(justNum) == 11:
+                         if justNum[0] != '1':
+                             print('invalid US number')
+                         else:
+                             justNum = '+' + justNum
+                             data['Phone'] = justNum;
             num = ''
         data.to_csv("updated.csv")
     return send_file('updated.csv',
