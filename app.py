@@ -16,7 +16,7 @@ def upload_route_summary():
         f = request.files['fileupload']
         data = pd.read_csv(f)
         for index, row in data.iterrows():
-            num = data['Phone'][row]
+            num = data.loc[i,'Phone']
             print(num)
             if not isinstance(num,str):
                 num = str(num)
