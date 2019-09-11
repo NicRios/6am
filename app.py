@@ -17,9 +17,10 @@ def upload_route_summary():
         data = pd.read_csv(f)
         for index, row in data.iterrows():
             num = data['Phone'][row]
+            print(num)
             if not isinstance(num,str):
                 num = str(num)
-            num = num[1:]
+                num = num[1:]
             justNum = re.sub('[^0-9]','',num)
             print(justNum)
             if len(justNum) < 10 or len(justNum) > 11:
