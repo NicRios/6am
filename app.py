@@ -15,7 +15,7 @@ def upload_route_summary():
     if request.method == 'POST':
         f = request.files['fileupload']
         data = pd.read_csv(f)
-        data['Phone'].astype(basestring)
+        data['Phone'].astype(str)
         for index, row in data.iterrows():
             num = row['Phone']
             print("num is: ", num)
