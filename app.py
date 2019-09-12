@@ -2,20 +2,18 @@ from flask import Flask, redirect, render_template, url_for, request, send_file
 import requests, json
 import pandas as pd
 import re
-import pygsheets
+import io
 
-#authorization
-gc = pygsheets.authorize(client_secret='client_secret.json')
-sh = gc.open('SheetsDB')
-wks = sh.sheet1
-shJson = wks.to_json()
-
+#google sheet
+pathtoCSV = 'https://docs.google.com/spreadsheets/d/1LF4jEET_2RwJrSuCQJy2U5gnVqIbvNDFuLyi9_tLo84/edit?usp=sharing'
+#s=requests.get(pathtoCSV).content
+df =pd.read_csv(pathtoCSV)
 
 app = Flask(__name__)
 
 @app.route("/",methods=['GET', 'POST'])
 def index():
-    print(shJson)
+    print(df)
     return render_template('index.html')
 
 
