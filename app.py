@@ -2,18 +2,54 @@ from flask import Flask, redirect, render_template, url_for, request, send_file
 import requests, json
 import pandas as pd
 import re
-import io
+from oauth2client import file, client, tools
+from googleapiclient.discovery import build
+from httplib2 import Http
+import pygsheets
 
-#google sheet
-pathtoCSV = 'https://docs.google.com/spreadsheets/d/1LF4jEET_2RwJrSuCQJy2U5gnVqIbvNDFuLyi9_tLo84/edit?usp=sharing'
-#s=requests.get(pathtoCSV).content
-df =pd.read_csv(pathtoCSV)
+
+Spreadsheet_ID = '1LF4jEET_2RwJrSuCQJy2U5gnVqIbvNDFuLyi9_tLo84'
+Range_name = 'Sheet1'
+
+def get_google_sheet(spreadsheet_id, range_name):
+    """ Retrieve sheet data using OAuth credentials and Google Python API. """
+    scopes = 'https://www.googleapis.com/auth/spreadsheets.readonly'
+    # Setup the Sheets API
+    store = file.Storage('credentials.json')
+    creds = store.get()
+    if not creds or creds.invalid:
+        flow = client.flow_from_clientsecrets('client_secret.json', scopes)
+        creds = tools.run_flow(flow, store)
+    service = build('sheets', 'v4', http=creds.authorize(Http()))
+
+    # Call the Sheets API
+    gsheet = service.spreadsheets().values().get(spreadsheetId=spreadsheet_id, range=range_name).execute()
+    return gsheet
+
+def gsheet2df(gsheet):
+    header = gsheet.get('values', [])[0]   # Assumes first line is header!
+    values = gsheet.get('values', [])[1:]  # Everything else is data.
+    if not values:
+        print('No data found.')
+    else:
+        all_data = []
+        for col_id, col_name in enumerate(header):
+            column_data = []
+            for row in values:
+                column_data.append(row[col_id])
+            ds = pd.Series(data=column_data, name=col_name)
+            all_data.append(ds)
+        df = pd.concat(all_data, axis=1)
+        return df
 
 app = Flask(__name__)
 
 @app.route("/",methods=['GET', 'POST'])
 def index():
-    print(df)
+    gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
+    df = gsheet2df(gsheet)
+    print('Dataframe size = ', df.shape)
+    print(df.head())
     return render_template('index.html')
 
 
