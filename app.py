@@ -48,8 +48,14 @@ app = Flask(__name__)
 def index():
     gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
     df = gsheet2df(gsheet)
-    print('Dataframe size = ', df.shape)
     print(df.head())
+    #print('Dataframe size = ', df.shape)
+    if request.method =='GET':
+        routeParam = request.headers.get('param')
+        temp_row = df.loc[df['in'] == routeParam ]
+        finaloutput = temp_row['out']
+        return finaloutput
+
     return render_template('index.html')
 
 
