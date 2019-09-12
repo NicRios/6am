@@ -54,7 +54,7 @@ def index():
         routeParam = request.headers.get('param')
         temp_row = df.loc[df['in'] == routeParam ]
         finaloutput = temp_row['out']
-        return finaloutput
+        return str(finaloutput)
 
     return render_template('index.html')
 
