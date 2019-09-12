@@ -48,6 +48,7 @@ app = Flask(__name__)
 def index():
     gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
     df = gsheet2df(gsheet)
+    df.drop(df.columns[0], axis=1)
     print(df.head())
     #print('Dataframe size = ', df.shape)
     if request.method =='GET':
