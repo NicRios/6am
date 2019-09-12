@@ -2,11 +2,20 @@ from flask import Flask, redirect, render_template, url_for, request, send_file
 import requests, json
 import pandas as pd
 import re
+import pygsheets
+
+#authorization
+gc = pygsheets.authorize(client_secret='client_secret.json')
+sh = gc.open('SheetsDB')
+wks = sh.sheet1
+shJson = wks.to_json()
+
 
 app = Flask(__name__)
 
 @app.route("/",methods=['GET', 'POST'])
 def index():
+    print(shJson)
     return render_template('index.html')
 
 
