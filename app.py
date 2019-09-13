@@ -27,7 +27,7 @@ def get_google_sheet(spreadsheet_id, range_name):
     return gsheet
 
 def gsheet2df(gsheet):
-    header = gsheet.get('values', [])[0]   # Assumes first line is header!
+    header =  gsheet.get('values', [])[0]   # Assumes first line is header!
     values = gsheet.get('values', [])[1:]  # Everything else is data.
     if not values:
         print('No data found.')
@@ -48,10 +48,10 @@ app = Flask(__name__)
 def index():
     gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
     df = gsheet2df(gsheet)
-    df.drop(df.columns[0], axis=1)
+    #df.drop(df.columns[0], axis=1)
     print(df.head())
     #print('Dataframe size = ', df.shape)
-    if request.method =='GET':
+    if request.method =='GET' and request.headers.get('param') != None:
         routeParam = request.headers.get('param')
         temp_row = df.loc[df['in'] == routeParam ]
         finaloutput = temp_row['out']
