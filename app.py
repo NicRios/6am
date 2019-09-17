@@ -48,15 +48,15 @@ app = Flask(__name__)
 def index():
     gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
     df = gsheet2df(gsheet)
-    #df.drop(df.columns[0], axis=1)
+    df.rename(columns = {"" : "Index"}, inplace = True)
     print(df.head())
     #print('Dataframe size = ', df.shape)
     if request.method =='GET' and request.get_json() != None:
         routeParam = request.get_json()
         checkDB = routeParam['param'];
         temp_row = df.loc[df['in'] == checkDB ]
-        #finaloutput = temp_row['out']
-        return str(temp_row)
+        finaloutput = temp_row['out']
+        return str(finaloutput)
 
     return render_template('index.html')
 
