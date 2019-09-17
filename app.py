@@ -53,9 +53,10 @@ def index():
     #print('Dataframe size = ', df.shape)
     if request.method =='GET' and request.get_json() != None:
         routeParam = request.get_json()
-        #temp_row = df.loc[df['in'] == routeParam ]
-        #finaloutput = temp_row['out']
-        return routeParam #str(finaloutput)
+        checkDB = routeParam['param'];
+        temp_row = df.loc[df['in'] == checkDB ]
+        finaloutput = temp_row['out']
+        return str(finaloutput)
 
     return render_template('index.html')
 
