@@ -64,7 +64,7 @@ def index():
     return render_template('index.html')
 
 @app.route("/studio",methods=['GET', 'POST'])
-def index():
+def studio():
     gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
     df = gsheet2df(gsheet)
     print(df.head())
