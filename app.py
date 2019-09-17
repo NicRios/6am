@@ -76,9 +76,10 @@ def studio():
             temp = row['in']
             if temp == checkDB:
                 out = df.at[index, 'out']
+                return str(out)
             #temp_row = df.loc[df['in'] == checkDB ]
         #finaloutput = temp_row['out']
-    return str(out)
+    #return str(out)
 
 
 @app.route("/upload.html", methods=['GET', 'POST'])
