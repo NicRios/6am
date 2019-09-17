@@ -51,11 +51,11 @@ def index():
     #df.drop(df.columns[0], axis=1)
     print(df.head())
     #print('Dataframe size = ', df.shape)
-    if request.method =='GET' and request.headers.get('param') != None:
-        routeParam = request.headers.get('param')
-        temp_row = df.loc[df['in'] == routeParam ]
-        finaloutput = temp_row['out']
-        return str(finaloutput)
+    if request.method =='GET' and request.get_json() != None:
+        routeParam = request.get_json()
+        #temp_row = df.loc[df['in'] == routeParam ]
+        #finaloutput = temp_row['out']
+        return routeParam #str(finaloutput)
 
     return render_template('index.html')
 
