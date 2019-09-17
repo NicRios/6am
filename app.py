@@ -46,11 +46,30 @@ app = Flask(__name__)
 
 @app.route("/",methods=['GET', 'POST'])
 def index():
+    # gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
+    # df = gsheet2df(gsheet)
+    # print(df.head())
+    # #print('Dataframe size = ', df.shape)
+    # if request.method =='GET' and request.get_json() != None:
+    #     routeParam = request.get_json()
+    #     checkDB = routeParam['param'];
+    #     for index, row in df.iterrows():
+    #         temp = row['in']
+    #         if temp == checkDB:
+    #             out = df.at[index, 'out']
+    #         #temp_row = df.loc[df['in'] == checkDB ]
+    #     #finaloutput = temp_row['out']
+    #     return str(out)
+
+    return render_template('index.html')
+
+@app.route("/studio",methods=['GET', 'POST'])
+def index():
     gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
     df = gsheet2df(gsheet)
     print(df.head())
     #print('Dataframe size = ', df.shape)
-    if request.method =='GET' and request.get_json() != None:
+    if request.method =='POST':
         routeParam = request.get_json()
         checkDB = routeParam['param'];
         for index, row in df.iterrows():
@@ -59,9 +78,7 @@ def index():
                 out = df.at[index, 'out']
             #temp_row = df.loc[df['in'] == checkDB ]
         #finaloutput = temp_row['out']
-        return str(out)
-
-    return render_template('index.html')
+    return str(out)
 
 
 @app.route("/upload.html", methods=['GET', 'POST'])
