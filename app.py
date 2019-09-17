@@ -40,8 +40,7 @@ def gsheet2df(gsheet):
             ds = pd.Series(data=column_data, name=col_name)
             all_data.append(ds)
         df = pd.concat(all_data, axis=1)
-        df2 = df.rename(columns = {"" : "Index"})
-        return df2
+        return df
 
 app = Flask(__name__)
 
@@ -49,15 +48,18 @@ app = Flask(__name__)
 def index():
     gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
     df = gsheet2df(gsheet)
-    df.rename(columns = {"" : "Index"}, inplace = True)
     print(df.head())
     #print('Dataframe size = ', df.shape)
     if request.method =='GET' and request.get_json() != None:
         routeParam = request.get_json()
         checkDB = routeParam['param'];
-        temp_row = df.loc[df['in'] == checkDB ]
+        for index, row in df.iterrows():
+            temp = row['in']
+            if temp == checkDB:
+                out = df.at[index, 'out']
+            #temp_row = df.loc[df['in'] == checkDB ]
         #finaloutput = temp_row['out']
-        return str(temp_row)
+        return str(out)
 
     return render_template('index.html')
 
