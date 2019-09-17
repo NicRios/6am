@@ -40,7 +40,8 @@ def gsheet2df(gsheet):
             ds = pd.Series(data=column_data, name=col_name)
             all_data.append(ds)
         df = pd.concat(all_data, axis=1)
-        return df
+        df2 = df.rename(columns = {"" : "Index"})
+        return df2
 
 app = Flask(__name__)
 
