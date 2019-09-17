@@ -55,8 +55,8 @@ def index():
         routeParam = request.get_json()
         checkDB = routeParam['param'];
         temp_row = df.loc[df['in'] == checkDB ]
-        finaloutput = temp_row['out']
-        return str(finaloutput)
+        #finaloutput = temp_row['out']
+        return str(temp_row)
 
     return render_template('index.html')
 
