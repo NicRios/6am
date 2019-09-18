@@ -11,6 +11,7 @@ import pygsheets
 Spreadsheet_ID = '1LF4jEET_2RwJrSuCQJy2U5gnVqIbvNDFuLyi9_tLo84'
 Range_name = 'Sheet1'
 
+
 def get_google_sheet(spreadsheet_id, range_name):
     """ Retrieve sheet data using OAuth credentials and Google Python API. """
     scopes = 'https://www.googleapis.com/auth/spreadsheets.readonly'
@@ -76,7 +77,10 @@ def studio():
             temp = row['in']
             if temp == checkDB:
                 out = df.at[index, 'out']
-                return str(out)
+                a = { 'ouput': out }
+                python2json = json.dumps(a)
+                print(python2json)
+                return python2json
             #temp_row = df.loc[df['in'] == checkDB ]
         #finaloutput = temp_row['out']
     #return str(out)
