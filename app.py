@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for, request, send_file
+from flask import Flask, redirect, render_template, url_for, request, send_file, Response
 import requests, json
 import pandas as pd
 import re
@@ -47,21 +47,6 @@ app = Flask(__name__)
 
 @app.route("/",methods=['GET', 'POST'])
 def index():
-    # gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
-    # df = gsheet2df(gsheet)
-    # print(df.head())
-    # #print('Dataframe size = ', df.shape)
-    # if request.method =='GET' and request.get_json() != None:
-    #     routeParam = request.get_json()
-    #     checkDB = routeParam['param'];
-    #     for index, row in df.iterrows():
-    #         temp = row['in']
-    #         if temp == checkDB:
-    #             out = df.at[index, 'out']
-    #         #temp_row = df.loc[df['in'] == checkDB ]
-    #     #finaloutput = temp_row['out']
-    #     return str(out)
-
     return render_template('index.html')
 
 @app.route("/studio",methods=['GET', 'POST'])
@@ -80,10 +65,7 @@ def studio():
                 a = { 'ouput': out }
                 python2json = json.dumps(a)
                 print(python2json)
-                return python2json
-            #temp_row = df.loc[df['in'] == checkDB ]
-        #finaloutput = temp_row['out']
-    #return str(out)
+                return Response(json.dumps(a), mimetype='application/json')
 
 
 @app.route("/upload.html", methods=['GET', 'POST'])
@@ -98,7 +80,6 @@ def upload_route_summary():
             if not isinstance(num,str):
                 num = str(num)
                 print("string conversion")
-                #num = num[1:]
             justNum = re.sub('[^0-9]','',num)
             print("justNum is: ", justNum)
             if len(justNum) < 10 or len(justNum) > 11:
