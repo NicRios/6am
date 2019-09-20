@@ -58,6 +58,7 @@ def studio():
     if request.method =='POST':
         routeParam = request.get_json()
         checkDB = routeParam['param'];
+        print(checkDB)
         for index, row in df.iterrows():
             temp = row['in']
             if temp == checkDB:
@@ -66,9 +67,9 @@ def studio():
                 python2json = json.dumps(a)
                 print(python2json)
                 return Response(json.dumps(a), mimetype='application/json')
-            else:
-                b = { 'ouput': 'wrong' }
-                return Response(json.dumps(b), mimetype='application/json')
+
+        b = { 'ouput': 'wrong' }
+        return Response(json.dumps(b), mimetype='application/json')
 
 
 @app.route("/upload.html", methods=['GET', 'POST'])
