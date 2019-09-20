@@ -68,7 +68,7 @@ def studio():
                 return Response(json.dumps(a), mimetype='application/json')
             else:
                 b = { 'ouput': 'wrong' }
-                return return Response(json.dumps(b), mimetype='application/json')
+                return Response(json.dumps(b), mimetype='application/json')
 
 
 @app.route("/upload.html", methods=['GET', 'POST'])
