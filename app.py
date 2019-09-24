@@ -66,7 +66,7 @@ def studio():
                 a = { 'ouput': out }
                 python2json = json.dumps(a)
                 print(python2json)
-                return Response(json.dumps(a), mimetype='application/json')
+                return python2json#Response(json.dumps(a), mimetype='application/json')
 
         b = { 'ouput': 'wrong' }
         print('shouldnt be here')
