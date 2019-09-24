@@ -69,6 +69,7 @@ def studio():
                 return Response(json.dumps(a), mimetype='application/json')
 
         b = { 'ouput': 'wrong' }
+        print('shouldnt be here')
         return Response(json.dumps(b), mimetype='application/json')
 
 
