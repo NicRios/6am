@@ -158,10 +158,10 @@ def format_json():
     return output
 
 
-@app.route("/missed-call", methods=['GET', 'POST'])
-def schedule_callback():
-    if request.method == 'POST':
-        reschedule = request.json
+# @app.route("/missed-call", methods=['GET', 'POST'])
+# def schedule_callback():
+#     if request.method == 'POST':
+#         reschedule = request.json
 
 
 
