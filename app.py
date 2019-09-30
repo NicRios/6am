@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for, request, send_file, Response
+from flask import Flask, redirect, render_template, url_for, request, send_file, Response, g
 import requests, json
 import pandas as pd
 import re
@@ -11,6 +11,17 @@ import pygsheets
 Spreadsheet_ID = '1LF4jEET_2RwJrSuCQJy2U5gnVqIbvNDFuLyi9_tLo84'
 Range_name = 'Sheet1'
 
+def get_messages():
+    messages = getattr(g, '_messages', None)
+    if messages is None:
+        g._messages = []  # to store messages you may use a dictionary
+    return g._messages
+
+def add_message(message):
+    messages = get_messages()
+    messages.append(message)
+    setattr(g, '_messages', messages)
+    return messages
 
 def get_google_sheet(spreadsheet_id, range_name):
     """ Retrieve sheet data using OAuth credentials and Google Python API. """
@@ -63,12 +74,12 @@ def studio():
             temp = row['in']
             if temp == checkDB:
                 out = df.at[index, 'out']
-                a = { 'ouput': out }
+                a = { 'output': out }
                 python2json = json.dumps(a)
                 print(python2json)
                 return Response(json.dumps(a), mimetype='application/json')
 
-        b = { 'ouput': 'wrong' }
+        b = { 'output': 'wrong' }
         print('shouldnt be here')
         return Response(json.dumps(b), mimetype='application/json')
 
@@ -145,6 +156,15 @@ def format_json():
             r = requests.get(final_url)
             output = r.content
     return output
+
+
+@app.route("/missed-call", methods=['GET', 'POST'])
+def schedule_callback():
+    if request.method == 'POST':
+        reschedule = request.json
+
+
+
 
 @app.route("/ddip", methods=['GET', 'POST'])
 def dip():
