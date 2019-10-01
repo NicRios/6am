@@ -69,6 +69,8 @@ def studio():
     if request.method =='POST':
         routeParam = request.get_json()
         checkDB = routeParam['param'];
+        if checkDB[0] == '+' and checkDB[1] =='1':
+            checkDB = checkDB[2]+ checkDB[3] + checkDB[4]
         print(checkDB)
         for index, row in df.iterrows():
             temp = row['in']
