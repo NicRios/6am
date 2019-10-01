@@ -185,7 +185,9 @@ def dip():
         r = requests.get(ddip_url, headers = headers)
         out = r.json()
         id = out['Id']
-    return id
+        print(id)
+        finalout = {'id': id}
+    return finalout
 
 
 if __name__ == "__main__":
