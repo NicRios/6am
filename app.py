@@ -186,7 +186,11 @@ def dip():
         out = r.json()
         #id = out['Id']
         print(out)
-        finalout = {'id': out}
+        start = out.find('=') +1
+        end = len(out) - 2
+        final =out[start:end]
+        finalurl = 'https://talkforce.lightning.force.com/lightning/r/Contact/' + final + '/view'
+        finalout = {'url': finalurl}
     return finalout
 
 
