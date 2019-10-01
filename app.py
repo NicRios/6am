@@ -174,7 +174,7 @@ def dip():
         object = jsonFile2['object']
         field = jsonFile2['field']
         filterby= jsonFile2['filterby']
-        contactphone = re..sub('[^0-9]','',filterby)
+        contactphone = re.sub('[^0-9]','',filterby)
         print(contactphone)
         code = 'Select ' + field + ' From ' + object + ' Where Phone =\''+ contactphone + '\' Limit 1'
         #code = jsonFile2['code']
