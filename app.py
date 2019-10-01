@@ -191,6 +191,7 @@ def dip():
         start = out.find('=') +1
         end = len(out) - 2
         final =out[start:end]
+        print(final)
         finalurl = 'https://talkforce.lightning.force.com/lightning/r/Contact/' + final + '/view'
         finalout = {'url': finalurl}
     return finalout
