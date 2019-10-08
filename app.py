@@ -186,7 +186,7 @@ def dip():
             if filterby2 != '':
                 contactemail = filterby2
                 print(contactemail)
-                code = 'Select ' + field + ' From ' + object + ' Where Phone =\'+'+ contactphone + '\' Limit 1'
+                code = 'Select ' + field + ' From ' + object + ' Where Email =\'+'+ contactemail + '\' Limit 1'
                 print(code)
         if crm == 'Salesforce':
             ddip_url = 'http://talkforce.force.com/omnidatadip/services/apexrest/webdatadip/go'
