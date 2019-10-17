@@ -177,6 +177,8 @@ def dip():
         field = jsonFile2['field']
         filterby= jsonFile2['filterby']
         filterby2 = jsonFile2['filterby2']
+        print(filterby)
+        print(filterby2)
         if filterby != '':
             contactphone = re.sub('[^0-9]','',filterby[0])
             print(contactphone)
