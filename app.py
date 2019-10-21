@@ -179,7 +179,7 @@ def dip():
         filterby2 = jsonFile2['filterby2']
         print(filterby)
         print(filterby2)
-        if filterby != '' and !('@' in filterby):
+        if (filterby != '') and !('@' in filterby):
             contactphone = re.sub('[^0-9]','',filterby[0])
             print(contactphone)
             code = 'Select ' + field + ' From ' + object + ' Where Phone =\'+'+ contactphone + '\' Limit 1'
