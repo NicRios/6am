@@ -17,10 +17,11 @@ x = datetime.today()
 y = x.replace(day=x.day, hour=4, minute=0, second=0, microsecond=0) + timedelta(days=1)
 delta_t=y-x
 secs=delta_t.total_seconds()
+print(secs)
 
 
 def get_google_sheet(spreadsheet_id, range_name):
-    print('entered again')
+    print('entered get_google_sheet again')
     """ Retrieve sheet data using OAuth credentials and Google Python API. """
     scopes = 'https://www.googleapis.com/auth/spreadsheets.readonly'
     # Setup the Sheets API
@@ -36,7 +37,7 @@ def get_google_sheet(spreadsheet_id, range_name):
     return gsheet
 
 def gsheet2df(gsheet):
-    print('entered again')
+    print('entered gsheet2df again')
     header =  gsheet.get('values', [])[0]   # Assumes first line is header!
     values = gsheet.get('values', [])[1:]  # Everything else is data.
     if not values:
@@ -52,13 +53,17 @@ def gsheet2df(gsheet):
         df = pd.concat(all_data, axis=1)
         return df
 def daily():
-    print('entered again')
+    print('entered daily again')
     gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
     df = gsheet2df(gsheet)
     if not dfs:
+        print('df array empty in daily function')
         dfs.append(df)
     else:
+        print('df array has a previous value when daily gets called again')
         dfs.pop()
+        if not dfs:
+            print('This should get called - empty array')
         dfs.append(df)
 
 app = Flask(__name__)
