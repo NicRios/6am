@@ -17,7 +17,7 @@ x = datetime.today()
 y = x.replace(day=x.day, hour=4, minute=0, second=0, microsecond=0) + timedelta(days=1)
 delta_t=y-x
 secs=delta_t.total_seconds()
-print(secs + ' is the total number of seconds between when db should be touched')
+print(secs, ' is the total number of seconds between when db should be touched')
 print('Compile time stuff.. Runs once?')
 
 def get_google_sheet(spreadsheet_id, range_name):
