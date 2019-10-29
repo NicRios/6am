@@ -6,24 +6,21 @@ from oauth2client import file, client, tools
 from googleapiclient.discovery import build
 from httplib2 import Http
 import pygsheets
+from datetime import datetime, timedelta
+from threading import Timer
 
 
 Spreadsheet_ID = '1LF4jEET_2RwJrSuCQJy2U5gnVqIbvNDFuLyi9_tLo84'
 Range_name = 'Sheet1'
+dfs = []
+x = datetime.today()
+y = x.replace(day=x.day, hour=1, minute=0, second=0, microsecond=0) + timedelta(days=1)
+delta_t=y-x
+secs=delta_t.total_seconds()
 
-def get_messages():
-    messages = getattr(g, '_messages', None)
-    if messages is None:
-        g._messages = []  # to store messages you may use a dictionary
-    return g._messages
-
-def add_message(message):
-    messages = get_messages()
-    messages.append(message)
-    setattr(g, '_messages', messages)
-    return messages
 
 def get_google_sheet(spreadsheet_id, range_name):
+    print('entered again')
     """ Retrieve sheet data using OAuth credentials and Google Python API. """
     scopes = 'https://www.googleapis.com/auth/spreadsheets.readonly'
     # Setup the Sheets API
@@ -39,6 +36,7 @@ def get_google_sheet(spreadsheet_id, range_name):
     return gsheet
 
 def gsheet2df(gsheet):
+    print('entered again')
     header =  gsheet.get('values', [])[0]   # Assumes first line is header!
     values = gsheet.get('values', [])[1:]  # Everything else is data.
     if not values:
@@ -53,6 +51,15 @@ def gsheet2df(gsheet):
             all_data.append(ds)
         df = pd.concat(all_data, axis=1)
         return df
+def daily():
+    print('entered again')
+    gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
+    df = gsheet2df(gsheet)
+    if not dfs:
+        dfs.append(df)
+    else:
+        dfs.pop()
+        dfs.append(df)
 
 app = Flask(__name__)
 
@@ -62,20 +69,23 @@ def index():
 
 @app.route("/studio",methods=['GET', 'POST'])
 def studio():
-    gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
-    df = gsheet2df(gsheet)
-    print(df.head())
+    #gsheet = get_google_sheet(Spreadsheet_ID, Range_name)
+    #df = gsheet2df(gsheet)
+    #print(df.head())
     #print('Dataframe size = ', df.shape)
+    if not dfs:
+        daily()
+    dataframe = dfs[-1]
     if request.method =='POST':
         routeParam = request.get_json()
         checkDB = routeParam['param'];
         if checkDB[0] == '+' and checkDB[1] =='1':
             checkDB = checkDB[2]+ checkDB[3] + checkDB[4]
         print(checkDB)
-        for index, row in df.iterrows():
+        for index, row in dataframe.iterrows():
             temp = row['in']
             if temp == checkDB:
-                out = df.at[index, 'out']
+                out = dataframe.at[index, 'out']
                 a = { 'output': out }
                 python2json = json.dumps(a)
                 print(python2json)
@@ -130,22 +140,6 @@ def format_json():
         print(request.json)
         print(method)
         print(final_url)
-        # first = jsonFile['first']
-        # second = jsonFile['second']
-        # third = jsonFile['third']
-        # if(first!= 'none'):
-        #     firstl = first.split('|', 1)
-        #     firstkey = firstl[0]
-        #     firstvalue = firstl[1]
-        # if(second != 'none'):
-        #     secondl = second.split('|', 1)
-        #     secondkey = secondl[0]
-        #     secondvalue = secondl[1]
-        # if(third != 'none'):
-        #     thirdl = third.split('|', 1)
-        #     thirdkey = thirdl[0]
-        #     thirdvalue = thirdl[1]
-        # payload = {firstkey: firstvalue, secondkey: secondvalue, thirdkey: thirdvalue}
         payload = {
         	"url": "https://hooks-us.imiconnect.io/events/NFG9Q8Y8G998",
         	"method": "post"
@@ -158,13 +152,6 @@ def format_json():
             r = requests.get(final_url)
             output = r.content
     return output
-
-
-# @app.route("/missed-call", methods=['GET', 'POST'])
-# def schedule_callback():
-#     if request.method == 'POST':
-#         reschedule = request.json
-
 
 
 
@@ -209,6 +196,8 @@ def dip():
         finalout = {'url': finalurl}
     return finalout
 
+t = Timer(secs, daily)
+t.start()
 
 if __name__ == "__main__":
     app.run(debug=True)
